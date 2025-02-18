@@ -503,7 +503,7 @@ const FolderView = () => {
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
-                                className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
+                                className="fixed inset-0 background-blur-sm bg-opacity-50 z-50 flex items-center justify-center"
                             >
                                 <motion.div
                                     initial={{ scale: 0.9, opacity: 0 }}
