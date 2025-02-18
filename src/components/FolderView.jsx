@@ -544,86 +544,91 @@ const FolderView = () => {
                             </motion.div>
                         )}
                     </AnimatePresence>
-                    <div className="bg-white rounded-lg shadow-sm p-6 mt-8">
-                        <div className="flex justify-between items-center mb-6">
-                            <h3 className="text-lg font-medium mr-10 text-gray-800">Images</h3>
-                            <div className="relative flex-grow">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                    </svg>
+                    <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 mt-8">
+                        {/* Header Section */}
+                        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-6">
+                            <h3 className="text-lg font-medium text-gray-800 whitespace-nowrap">Images</h3>
+
+                            {/* Search and Upload Button Container */}
+                            <div className="flex flex-col sm:flex-row w-full gap-4">
+                                <div className="relative flex-grow">
+                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                        </svg>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        placeholder="Search images by name..."
+                                        className="pl-10 w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                    />
                                 </div>
-                                <input
-                                    type="text"
-                                    placeholder="Search images by name..."
-                                    className="pl-10 w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                />
-                            </div>
-                            <button
-                                onClick={() => setShowUploadModal(true)}
-                                className="px-8 py-2 ml-10 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-                            >
-                                Upload Image
-                            </button>
-                        </div>
-
-                        {filteredImages.length === 0 && searchQuery !== '' ? (
-                        <div className="text-center py-12 text-gray-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto mb-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
-                            <p className="text-lg">No images found</p>
-                            <p className="mt-1">No images match your search for "{searchQuery}"</p>
-                            <button
-                                onClick={() => setSearchQuery('')}
-                                className="mt-4 text-blue-600 hover:text-blue-800 transition-colors"
-                            >
-                                Clear search
-                            </button>
-                        </div>
-                        ) : (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                            {filteredImages.map(image => (
-                                <motion.div
-                                    key={image._id}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    className="border border-gray-200 rounded-lg overflow-hidden group relative"
+                                <button
+                                    onClick={() => setShowUploadModal(true)}
+                                    className="w-full sm:w-auto px-4 sm:px-8 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors whitespace-nowrap"
                                 >
-                                    <div className="aspect-w-1 aspect-h-1 bg-gray-100">
-                                        <img
-                                            src={image.url || 'https://via.placeholder.com/150'}
-                                            alt={image.name}
-                                            className="object-cover w-full h-full"
-                                            loading="lazy"
-                                            onError={(e) => {
-                                                console.error('Image load error for:', image);
-                                                e.target.src = 'https://via.placeholder.com/150';
-                                            }}
-                                        />
-
-                                        <div className="absolute inset-0  bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-200">
-                                            <button
-                                                onClick={() => setImageToDelete(image)}
-                                                className="absolute top-2 right-2 p-2 bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-red-700"
-                                            >
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                                    <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div className="p-4">
-                                        <h4 className="font-medium text-gray-800 truncate">{image.name}</h4>
-                                        <p className="text-sm text-gray-500 mt-1">
-                                            {new Date(image.createdAt).toLocaleDateString()}
-                                        </p>
-                                    </div>
-                                </motion.div>
-                            ))}
+                                    Upload Image
+                                </button>
+                            </div>
                         </div>
+
+                        {/* No Results Message */}
+                        {filteredImages.length === 0 && searchQuery !== '' ? (
+                            <div className="text-center py-8 sm:py-12 text-gray-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto mb-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                                <p className="text-lg">No images found</p>
+                                <p className="mt-1">No images match your search for "{searchQuery}"</p>
+                                <button
+                                    onClick={() => setSearchQuery('')}
+                                    className="mt-4 text-blue-600 hover:text-blue-800 transition-colors"
+                                >
+                                    Clear search
+                                </button>
+                            </div>
+                        ) : (
+                            /* Image Grid */
+                            <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+                                {filteredImages.map(image => (
+                                    <motion.div
+                                        key={image._id}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="border border-gray-200 rounded-lg overflow-hidden group relative"
+                                    >
+                                        <div className="relative pt-[100%]">
+                                            <img
+                                                src={image.url || 'https://via.placeholder.com/150'}
+                                                alt={image.name}
+                                                className="absolute top-0 left-0 w-full h-full object-cover"
+                                                loading="lazy"
+                                                onError={(e) => {
+                                                    e.target.src = 'https://via.placeholder.com/150';
+                                                }}
+                                            />
+                                            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-200">
+                                                <button
+                                                    onClick={() => setImageToDelete(image)}
+                                                    className="absolute top-2 right-2 p-2 bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-red-700"
+                                                >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div className="p-3 sm:p-4">
+                                            <h4 className="font-medium text-gray-800 truncate text-sm sm:text-base">{image.name}</h4>
+                                            <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                                                {new Date(image.createdAt).toLocaleDateString()}
+                                            </p>
+                                        </div>
+                                    </motion.div>
+                                ))}
+                            </div>
                         )}
                     </div>
                 </div>
